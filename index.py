@@ -59,12 +59,17 @@ class Spam_Detection:
         # fitting the training data
         LR.fit(x_train,y_train)
         
-        # Predict and test
-        y_prediction = LR.predict(x_test)
-        df = pd.DataFrame({'Actual': y_test, 'Predicted': y_prediction})
-
-        # Print metrics
-        print(LR.score(x_test, y_test))
+        # Prediction Classes
+        predictions = LR.predict(x_test)
+        prediction_classes = [
+            1 if prob > 0.5 else 0 for prob in np.ravel(predictions)
+        ]
+        
+        # Pandas Dataframe
+        df = pd.DataFrame({'Actual': y_test, 'Predicted': prediction_classes})
+        result = df["Actual"].eq(df["Predicted"]).sum() / len(df) * 100
+        print(result)
+        print(df)
 
     def Naive_Bayes():
         from sklearn.naive_bayes import BernoulliNB
@@ -73,11 +78,19 @@ class Spam_Detection:
         
         bnb = BernoulliNB(binarize=0.0)
         bnb.fit(x_train, y_train)
-        print(str(bnb.score(x_test, y_test)))
+
+        # Prediction Classes
+        predictions = bnb.predict(x_test)
+        prediction_classes = [
+            1 if prob > 0.5 else 0 for prob in np.ravel(predictions)
+        ]
         
-        y_prediction = bnb.predict(x_test)
-        df = pd.DataFrame({'Actual': y_test, 'Predicted': y_prediction})
-        #print(df)
+        # Pandas Dataframe
+        df = pd.DataFrame({'Actual': y_test, 'Predicted': prediction_classes})
+        result = df["Actual"].eq(df["Predicted"]).sum() / len(df) * 100
+        print(result)
+        print(df)
+        
 
         # Visualize
         """
@@ -96,7 +109,18 @@ class Spam_Detection:
         
         regressor = RandomForestClassifier(n_estimators = 2000, random_state = 55)
         regressor.fit(x_train, y_train) 
-        print(str(regressor.score(x_test, y_test)))
+
+        # Prediction Classes
+        predictions = regressor.predict(x_test)
+        prediction_classes = [
+            1 if prob > 0.5 else 0 for prob in np.ravel(predictions)
+        ]
+        
+        # Pandas Dataframe
+        df = pd.DataFrame({'Actual': y_test, 'Predicted': prediction_classes})
+        result = df["Actual"].eq(df["Predicted"]).sum() / len(df) * 100
+        print(result)
+        print(df)
 
         # Visualize
         '''
@@ -119,7 +143,18 @@ class Spam_Detection:
         
         regressor = GradientBoostingClassifier(random_state = 55)
         regressor.fit(x_train, y_train) 
-        print(str(regressor.score(x_test, y_test)))
+
+        # Prediction Classes
+        predictions = regressor.predict(x_test)
+        prediction_classes = [
+            1 if prob > 0.5 else 0 for prob in np.ravel(predictions)
+        ]
+        
+        # Pandas Dataframe
+        df = pd.DataFrame({'Actual': y_test, 'Predicted': prediction_classes})
+        result = df["Actual"].eq(df["Predicted"]).sum() / len(df) * 100
+        print(result)
+        print(df)
 
         # Visualize
         '''
@@ -142,7 +177,18 @@ class Spam_Detection:
         
         regressor = SVC(random_state = 55)
         regressor.fit(x_train, y_train) 
-        print(str(regressor.score(x_test, y_test)))
+
+        # Prediction Classes
+        predictions = regressor.predict(x_test)
+        prediction_classes = [
+            1 if prob > 0.5 else 0 for prob in np.ravel(predictions)
+        ]
+        
+        # Pandas Dataframe
+        df = pd.DataFrame({'Actual': y_test, 'Predicted': prediction_classes})
+        result = df["Actual"].eq(df["Predicted"]).sum() / len(df) * 100
+        print(result)
+        print(df)
 
         # Visualize
         '''
@@ -165,7 +211,18 @@ class Spam_Detection:
         
         regressor = LogisticRegression(max_iter=600)
         regressor.fit(x_train, y_train) 
-        print(str(regressor.score(x_test, y_test)))
+
+        # Prediction Classes
+        predictions = regressor.predict(x_test)
+        prediction_classes = [
+            1 if prob > 0.5 else 0 for prob in np.ravel(predictions)
+        ]
+        
+        # Pandas Dataframe
+        df = pd.DataFrame({'Actual': y_test, 'Predicted': prediction_classes})
+        result = df["Actual"].eq(df["Predicted"]).sum() / len(df) * 100
+        print(result)
+        print(df)
 
         # Visualize
         '''
@@ -188,7 +245,18 @@ class Spam_Detection:
         
         regressor = ExtraTreesRegressor()
         regressor.fit(x_train, y_train) 
-        print(str(regressor.score(x_test, y_test)))
+        
+        # Prediction Classes
+        predictions = regressor.predict(x_test)
+        prediction_classes = [
+            1 if prob > 0.5 else 0 for prob in np.ravel(predictions)
+        ]
+        
+        # Pandas Dataframe
+        df = pd.DataFrame({'Actual': y_test, 'Predicted': prediction_classes})
+        result = df["Actual"].eq(df["Predicted"]).sum() / len(df) * 100
+        print(result)
+        print(df)
 
         # Visualize
         '''
@@ -233,7 +301,7 @@ class Spam_Detection:
 
 
         model = get_basic_model()
-        model.fit(x_train, y_train, epochs=45, batch_size=BATCH_SIZE)
+        model.fit(x_train, y_train, epochs=1000, batch_size=BATCH_SIZE)
 
         # model.summary()
         predictions = model.predict(x_test)
@@ -251,9 +319,6 @@ class Spam_Detection:
     def import_data():
         orig_train = pd.read_csv('Dataset/train.csv')
         orig_test = pd.read_csv('Dataset/test.csv')
-        
-        #print(orig_train)
-        #print(orig_train.columns)
 
         # Training
         x_train = orig_train
